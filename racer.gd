@@ -2,7 +2,8 @@ extends Area2D
 signal hit
 
 @export var speed = 200
-var screen_size
+var left_top_bound = Vector2(30, 0)
+var right_bottom_bound
 
 func start(pos):
 	position = pos
@@ -10,7 +11,8 @@ func start(pos):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	screen_size= get_viewport_rect().size
+	var screen_size = get_viewport_rect().size
+	right_bottom_bound= Vector2(screen_size.x - 30, screen_size.y)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,7 +24,7 @@ func _process(delta: float) -> void:
 		velocity.x -= 1
 
 	position += velocity * delta * speed
-	position = position.clamp(Vector2.ZERO, screen_size)
+	position = position.clamp(left_top_bound, right_bottom_bound)
 
 
 func _on_body_entered(body: Node2D) -> void:
