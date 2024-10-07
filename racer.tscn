@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://uqc37ypnqu74"]
+
+[ext_resource type="Texture2D" uid="uid://c1enfsahugfat" path="res://moto_red.png" id="1_hj7hh"]
+[ext_resource type="Script" path="res://racer.gd" id="1_vti66"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1bxhe"]
+radius = 18.0
+height = 100.0
+
+[node name="Racer" type="Area2D"]
+script = ExtResource("1_vti66")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_hj7hh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_1bxhe")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
