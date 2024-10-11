@@ -1,11 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://btlrkhh8wrsej"]
+[gd_scene load_steps=6 format=3 uid="uid://btlrkhh8wrsej"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_4qymw"]
+[ext_resource type="PackedScene" uid="uid://dpqioiiq7ky2y" path="res://car.tscn" id="2_gn8jm"]
 [ext_resource type="PackedScene" uid="uid://7u440rvnfuf6" path="res://background.tscn" id="2_q28r8"]
 [ext_resource type="PackedScene" uid="uid://uqc37ypnqu74" path="res://racer.tscn" id="3_slo32"]
 
+[sub_resource type="Curve2D" id="Curve2D_8303j"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 56, 0, 0, 0, 0, 0, 664, 0)
+}
+point_count = 2
+
 [node name="Main" type="Node"]
 script = ExtResource("1_4qymw")
+car_scene = ExtResource("2_gn8jm")
 
 [node name="Background" parent="." instance=ExtResource("2_q28r8")]
 
@@ -13,3 +21,23 @@ script = ExtResource("1_4qymw")
 
 [node name="StartPosition" type="Marker2D" parent="."]
 position = Vector2(360, 1100)
+
+[node name="CarTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="CarPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_8303j")
+
+[node name="CarSpawnLocation" type="PathFollow2D" parent="CarPath"]
+position = Vector2(56, 0)
+
+[connection signal="hit" from="Racer" to="." method="game_over"]
+[connection signal="timeout" from="CarTimer" to="." method="_on_car_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
